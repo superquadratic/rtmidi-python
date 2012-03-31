@@ -1,0 +1,5 @@
+/build
+/cython_debug
+
+/rtmidi.cpp
+/rtmidi.so
