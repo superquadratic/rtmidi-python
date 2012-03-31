@@ -1,6 +1,6 @@
 # rtmidi-python
 
-Python bindings for [RtMidi](http://www.music.mcgill.ca/~gary/rtmidi/).
+Python wrapper for [RtMidi](http://www.music.mcgill.ca/~gary/rtmidi/).
 
 ## Setup
 
@@ -69,4 +69,5 @@ tuple returned by `get_message()`.
 ## License
 
 _rtmidi-python_ is licensed under the MIT License, see `LICENSE`.
+
 It uses RtMidi, licensed under a modified MIT License, see `RtMidi/RtMidi.h`.
