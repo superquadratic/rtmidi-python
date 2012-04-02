@@ -9,32 +9,30 @@ else:
     from distutils.command.build_ext import build_ext
     module_source = 'rtmidi.cpp'
 
-define_macros = []
-libraries = []
-extra_compile_args = []
-extra_link_args = []
+extension_args = {}
 
 if sys.platform.startswith('linux'):
-    define_macros = [('__LINUX_ALSASEQ__', None)]
-    libraries = ['asound', 'pthread']
+    extension_args = dict(
+        define_macros=[('__LINUX_ALSASEQ__', None)],
+        libraries=['asound', 'pthread']
+    )
 
 if sys.platform == 'darwin':
-    define_macros = [('__MACOSX_CORE__', None)]
-    extra_compile_args = ['-frtti']
-    extra_link_args = [
-        '-framework', 'CoreMidi',
-        '-framework', 'CoreAudio',
-        '-framework', 'CoreFoundation'
-    ]
+    extension_args = dict(
+        define_macros=[('__MACOSX_CORE__', None)],
+        extra_compile_args=['-frtti'],
+        extra_link_args=[
+            '-framework', 'CoreMidi',
+            '-framework', 'CoreAudio',
+            '-framework', 'CoreFoundation'
+        ]
+    )
 
 rtmidi_module = distutils.extension.Extension(
     'rtmidi',
     [module_source, 'RtMidi/RtMidi.cpp'],
     language='c++',
-    define_macros=define_macros,
-    libraries=libraries,
-    extra_compile_args=extra_compile_args,
-    extra_link_args=extra_link_args
+    **extension_args
 )
 
 distutils.core.setup(
