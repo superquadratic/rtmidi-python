@@ -1,7 +1,13 @@
 import distutils
 import sys
 
-from Cython.Distutils import build_ext
+if '--from-cython' in sys.argv:
+    from Cython.Distutils import build_ext
+    sys.argv.remove('--with-cython')
+    module_source = 'rtmidi.pyx'
+else:
+    from distutils.command.build_ext import build_ext
+    module_source = 'rtmidi.cpp'
 
 define_macros = []
 libraries = []
@@ -23,7 +29,7 @@ if sys.platform == 'darwin':
 
 rtmidi_module = distutils.extension.Extension(
     'rtmidi',
-    ['rtmidi.pyx', 'RtMidi/RtMidi.cpp'],
+    [module_source, 'RtMidi/RtMidi.cpp'],
     language='c++',
     define_macros=define_macros,
     libraries=libraries,

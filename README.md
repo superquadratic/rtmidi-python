@@ -1,13 +1,21 @@
 # rtmidi-python
 
-Python wrapper for [RtMidi](http://www.music.mcgill.ca/~gary/rtmidi/).
+Python wrapper for [RtMidi](http://www.music.mcgill.ca/~gary/rtmidi/), the
+lightweight, cross-platform MIDI I/O library.
 
 ## Setup
 
-* Install [Cython](http://www.cython.org) 0.15 or later
-* Run `python setup.py install`
+The wrapper is written in [Cython](http://www.cython.org), but the generated
+C++ code is included, so you can install the module as usual:
 
-This should work out of the box on Mac OS X and Linux with ALSA. With a few
+    python setup.py install
+
+If you want to build from the Cython source, make sure that you have a recent
+version of Cython (>= 0.15), and run:
+
+    python setup.py install --from-cython
+
+Both should work out of the box on Mac OS X and Linux with ALSA. With a few
 changes to `setup.py`, if should also be possible to build the module on Linux
 with JACK and Windows.
 
