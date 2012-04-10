@@ -2,3 +2,4 @@
 /cython_debug
 
 /rtmidi.so
+/rtmidi.pyd

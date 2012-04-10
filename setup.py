@@ -28,6 +28,12 @@ if sys.platform == 'darwin':
         ]
     )
 
+if sys.platform == 'win32':
+    extension_args = dict(
+        define_macros=[('__WINDOWS_MM__', None)],
+        libraries=['winmm']
+    )
+
 rtmidi_module = distutils.extension.Extension(
     'rtmidi',
     [module_source, 'RtMidi/RtMidi.cpp'],
