@@ -4,10 +4,10 @@ import sys
 if '--from-cython' in sys.argv:
     from Cython.Distutils import build_ext
     sys.argv.remove('--from-cython')
-    module_source = 'rtmidi.pyx'
+    module_source = 'rtmidi_python.pyx'
 else:
     from distutils.command.build_ext import build_ext
-    module_source = 'rtmidi.cpp'
+    module_source = 'rtmidi_python.cpp'
 
 extension_args = {}
 
@@ -35,7 +35,7 @@ if sys.platform == 'win32':
     )
 
 rtmidi_module = distutils.extension.Extension(
-    'rtmidi',
+    'rtmidi_python',
     [module_source, 'RtMidi/RtMidi.cpp'],
     language='c++',
     **extension_args

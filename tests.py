@@ -3,7 +3,7 @@
 import time
 import unittest
 
-import rtmidi
+import rtmidi_python as rtmidi
 
 class RtMidiTestCase(unittest.TestCase):
 

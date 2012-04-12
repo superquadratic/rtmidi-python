@@ -21,12 +21,12 @@ with JACK and Windows.
 
 ## Usage Examples
 
-_rtmidi-python_ uses the same API as RtMidi, only reformatted to comply with
-PEP-8, and with small changes to make it a little more pythonic.
+_rtmidi-python_ uses the same API as RtMidi, only reformatted to comply with PEP-8,
+and with small changes to make it a little more pythonic.
 
 ### Print all output ports
 
-    import rtmidi
+    import rtmidi_python as rtmidi
 
     midi_out = rtmidi.MidiOut()
     for i in range(midi_out.get_port_count()):
@@ -34,7 +34,7 @@ PEP-8, and with small changes to make it a little more pythonic.
 
 ### Send messages
 
-    import rtmidi
+    import rtmidi_python as rtmidi
 
     midi_out = rtmidi.MidiOut()
     midi_out.open_port(0)
@@ -44,7 +44,7 @@ PEP-8, and with small changes to make it a little more pythonic.
 
 ### Get incoming messages by polling
 
-    import rtmidi
+    import rtmidi_python as rtmidi
 
     midi_in = rtmidi.MidiIn()
     midi_in.open_port(0)
@@ -59,7 +59,7 @@ API: It returns a tuple instead of using a return parameter.
 
 ### Get incoming messages using a callback
 
-    import rtmidi
+    import rtmidi_python as rtmidi
 
     def callback(message, time_stamp):
         print message, time_stamp
