@@ -3,7 +3,7 @@ import sys
 
 if '--from-cython' in sys.argv:
     from Cython.Distutils import build_ext
-    sys.argv.remove('--with-cython')
+    sys.argv.remove('--from-cython')
     module_source = 'rtmidi.pyx'
 else:
     from distutils.command.build_ext import build_ext
