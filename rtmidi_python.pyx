@@ -36,10 +36,9 @@ cdef class MidiBase:
         self.baseptr().openPort(port_number, string(<char*>port_name))
     def open_virtual_port(self, port_name="RtMidi"):
         self.baseptr().openVirtualPort(string(<char*>port_name))
-    def get_port_count(self):
-        return self.baseptr().getPortCount()
-    def get_port_name(self, port_number=0):
-        return self.baseptr().getPortName(port_number).c_str()
+    property ports:
+        def __get__(self):
+            return [self.baseptr().getPortName(i).c_str() for i in range(self.baseptr().getPortCount())]
     def close_port(self):
         self.baseptr().closePort()
 

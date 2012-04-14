@@ -29,8 +29,8 @@ and with small changes to make it a little more pythonic.
     import rtmidi_python as rtmidi
 
     midi_out = rtmidi.MidiOut()
-    for i in range(midi_out.get_port_count()):
-        print midi_out.get_port_name(i)
+    for port_name in midi_out.ports:
+        print port_name
 
 ### Send messages
 
