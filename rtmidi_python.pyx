@@ -12,7 +12,7 @@ cdef extern from "RtMidi/RtMidi.h":
     ctypedef void (*RtMidiCallback)(double timeStamp, vector[unsigned char]* message, void* userData)
 
     cdef cppclass RtMidi:
-        void openPort(unsigned int portNumber, string portName)
+        void openPort(unsigned int portNumber)
         void openVirtualPort(string portName)
         unsigned int getPortCount()
         string getPortName(unsigned int portNumber)
@@ -32,8 +32,12 @@ cdef extern from "RtMidi/RtMidi.h":
 cdef class MidiBase:
     cdef RtMidi* baseptr(self):
         return NULL
-    def open_port(self, port_number=0, port_name="RtMidi"):
-        self.baseptr().openPort(port_number, string(<char*>port_name))
+    def open_port(self, port=0):
+        if isinstance(port, int):
+            port_number = port
+        else:
+            port_number = self.ports.index(port)
+        self.baseptr().openPort(port_number)
     def open_virtual_port(self, port_name="RtMidi"):
         self.baseptr().openVirtualPort(string(<char*>port_name))
     property ports:

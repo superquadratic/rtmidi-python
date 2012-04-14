@@ -17,8 +17,7 @@ class RtMidiTestCase(unittest.TestCase):
         self.midi_out.open_virtual_port(self.TEST_PORT_NAME)
 
         self.midi_in = rtmidi.MidiIn()
-        port_id = self.midi_in.ports.index(self.TEST_PORT_NAME)
-        self.midi_in.open_port(port_id)
+        self.midi_in.open_port(self.TEST_PORT_NAME)
 
     def tearDown(self):
         self.midi_in.close_port()
