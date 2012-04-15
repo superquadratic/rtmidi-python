@@ -1,7 +1,7 @@
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
-cdef extern from "ceval.h":
+cdef extern from "Python.h":
     void PyEval_InitThreads()
 
 # Init Python threads and GIL, because RtMidi calls Python from native threads.
