@@ -52,16 +52,23 @@ cdef void midi_in_callback(double time_stamp, vector[unsigned char]* message_vec
 
 cdef class MidiIn(MidiBase):
     cdef RtMidiIn* thisptr
+    cdef object py_callback
     def __cinit__(self, client_name="RtMidi Input Client", queue_size_limit=100):
         self.thisptr = new RtMidiIn(string(<char*>client_name), queue_size_limit)
+        self.py_callback = None
     def __dealloc__(self):
         del self.thisptr
     cdef RtMidi* baseptr(self):
         return self.thisptr
-    def set_callback(self, callback):
-        self.thisptr.setCallback(midi_in_callback, <void*>callback)
-    def cancel_callback(self):
-        self.thisptr.cancelCallback()
+    property callback:
+        def __get__(self):
+            return self.py_callback
+        def __set__(self, callback):
+            if self.py_callback is not None:
+                self.thisptr.cancelCallback()
+            self.py_callback = callback
+            if self.py_callback is not None:
+                self.thisptr.setCallback(midi_in_callback, <void*>self.py_callback)
     def ignore_types(self, midi_sysex=True, midi_time=True, midi_sense=True):
         self.thisptr.ignoreTypes(midi_sysex, midi_time, midi_sense)
     def get_message(self):

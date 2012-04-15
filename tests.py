@@ -38,11 +38,18 @@ class RtMidiTestCase(unittest.TestCase):
         incoming_messages = []
         def callback(message, time_stamp):
             incoming_messages.append(message)
-        self.midi_in.set_callback(callback)
+        self.midi_in.callback = callback
         self.midi_out.send_message(self.NOTE_ON)
         self.midi_out.send_message(self.NOTE_OFF)
         time.sleep(self.DELAY)
         self.assertEqual(incoming_messages, [self.NOTE_ON, self.NOTE_OFF])
+
+        incoming_messages = []
+        self.midi_in.callback = None
+        self.midi_out.send_message(self.NOTE_ON)
+        self.midi_out.send_message(self.NOTE_OFF)
+        time.sleep(self.DELAY)
+        self.assertEqual(incoming_messages, [])
 
 if __name__ == '__main__':
     unittest.main()

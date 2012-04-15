@@ -65,14 +65,14 @@ API: It returns a tuple instead of using a return parameter.
         print message, time_stamp
 
     midi_in = rtmidi.MidiIn()
-    midi_in.set_callback(callback)
+    midi_in.callback = callback
     midi_in.open_port(0)
 
     # do something else here (but don't quit)
 
-Note that the signature of the callback passed to `set_callback()` differs from
-the original RtMidi API: `message` is now the first parameter, like in the
-tuple returned by `get_message()`.
+Note that the signature of the callback differs from the original RtMidi API:
+`message` is now the first parameter, like in the tuple returned by
+`get_message()`.
 
 ## License
 
