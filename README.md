@@ -1,7 +1,7 @@
 # rtmidi-python
 
 Python wrapper for [RtMidi](http://www.music.mcgill.ca/~gary/rtmidi/), the
-lightweight, cross-platform MIDI I/O library.
+lightweight, cross-platform MIDI I/O library. For Linux, Mac OS X and Windows.
 
 ## Setup
 
@@ -14,10 +14,6 @@ If you want to build from the Cython source, make sure that you have a recent
 version of Cython (>= 0.15), and run:
 
     python setup.py install --from-cython
-
-Both should work out of the box on Mac OS X and Linux with ALSA. With a few
-changes to `setup.py`, if should also be possible to build the module on Linux
-with JACK and Windows.
 
 ## Usage Examples
 

@@ -43,11 +43,11 @@ rtmidi_module = distutils.extension.Extension(
 
 distutils.core.setup(
     name='rtmidi-python',
-    version='0.1',
-    description='Python bindings for RtMidi.',
+    version='0.2',
+    description='Python wrapper for RtMidi',
     author='Guido Lorenz',
     author_email='code@superquadratic.net',
-    url='https://github.com/superquadratic/rtmidi-python/',
+    url='https://github.com/superquadratic/rtmidi-python',
     cmdclass={'build_ext': build_ext},
     ext_modules=[rtmidi_module],
     license='MIT',
