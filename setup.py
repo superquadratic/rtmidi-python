@@ -22,7 +22,7 @@ if sys.platform == 'darwin':
         define_macros=[('__MACOSX_CORE__', None)],
         extra_compile_args=['-frtti'],
         extra_link_args=[
-            '-framework', 'CoreMidi',
+            '-framework', 'CoreMIDI',
             '-framework', 'CoreAudio',
             '-framework', 'CoreFoundation'
         ]
