@@ -11,6 +11,9 @@ PyEval_InitThreads()
 cdef extern from "RtMidi/RtMidi.h":
     ctypedef void (*RtMidiCallback)(double timeStamp, vector[unsigned char]* message, void* userData)
 
+    enum Api "RtMidi::Api":
+        UNSPECIFIED "RtMidi::UNSPECIFIED"
+
     cdef cppclass RtMidi:
         void openPort(unsigned int portNumber)
         void openVirtualPort(string portName)
@@ -19,14 +22,14 @@ cdef extern from "RtMidi/RtMidi.h":
         void closePort()
 
     cdef cppclass RtMidiIn(RtMidi):
-        RtMidiIn(string clientName, unsigned int queueSizeLimit)
+        RtMidiIn(Api api, string clientName, unsigned int queueSizeLimit)
         void setCallback(RtMidiCallback callback, void* userData)
         void cancelCallback()
         void ignoreTypes(bint midiSysex, bint midiTime, bint midiSense)
         double getMessage(vector[unsigned char]* message)
 
     cdef cppclass RtMidiOut(RtMidi):
-        RtMidiOut(string clientName)
+        RtMidiOut(Api api, string clientName)
         void sendMessage(vector[unsigned char]* message)
 
 cdef class MidiBase:
@@ -54,7 +57,7 @@ cdef class MidiIn(MidiBase):
     cdef RtMidiIn* thisptr
     cdef object py_callback
     def __cinit__(self, client_name="RtMidi Input Client", queue_size_limit=100):
-        self.thisptr = new RtMidiIn(string(<char*>client_name), queue_size_limit)
+        self.thisptr = new RtMidiIn(UNSPECIFIED, string(<char*>client_name), queue_size_limit)
         self.py_callback = None
     def __dealloc__(self):
         del self.thisptr
@@ -83,7 +86,7 @@ cdef class MidiIn(MidiBase):
 cdef class MidiOut(MidiBase):
     cdef RtMidiOut* thisptr
     def __cinit__(self, client_name="RtMidi Output Client"):
-        self.thisptr = new RtMidiOut(string(<char*>client_name))
+        self.thisptr = new RtMidiOut(UNSPECIFIED, string(<char*>client_name))
     def __dealloc__(self):
         del self.thisptr
     cdef RtMidi* baseptr(self):
