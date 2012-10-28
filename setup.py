@@ -43,7 +43,7 @@ rtmidi_module = distutils.extension.Extension(
 
 distutils.core.setup(
     name='rtmidi-python',
-    version='0.2',
+    version='0.2.1',
     description='Python wrapper for RtMidi',
     author='Guido Lorenz',
     author_email='code@superquadratic.net',
