@@ -1,5 +1,8 @@
 /build
 /cython_debug
+/dist
 
 /rtmidi_python.so
 /rtmidi_python.pyd
+
+/MANIFEST
