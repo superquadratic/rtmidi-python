@@ -13,7 +13,7 @@ extension_args = {}
 
 if sys.platform.startswith('linux'):
     extension_args = dict(
-        define_macros=[('__LINUX_ALSASEQ__', None)],
+        define_macros=[('__LINUX_ALSA__', None)],
         libraries=['asound', 'pthread']
     )
 
