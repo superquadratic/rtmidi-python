@@ -45,6 +45,7 @@ distutils.core.setup(
     name='rtmidi-python',
     version='0.2.1',
     description='Python wrapper for RtMidi',
+    long_description=open('README.rst').read(),
     author='Guido Lorenz',
     author_email='code@superquadratic.net',
     url='https://github.com/superquadratic/rtmidi-python',
