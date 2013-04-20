@@ -11,7 +11,7 @@ C++ code is included, so you can install the module as usual:
     python setup.py install
 
 If you want to build from the Cython source, make sure that you have a recent
-version of Cython (>= 0.15), and run:
+version of Cython (>= 0.17), and run:
 
     python setup.py install --from-cython
 

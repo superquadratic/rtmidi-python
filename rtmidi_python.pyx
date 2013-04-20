@@ -1,3 +1,5 @@
+from cython.operator import dereference
+
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
@@ -50,8 +52,7 @@ cdef class MidiBase:
         self.baseptr().closePort()
 
 cdef void midi_in_callback(double time_stamp, vector[unsigned char]* message_vector, void* py_callback) with gil:
-    message = [message_vector.at(i) for i in range(message_vector.size())]
-    (<object>py_callback)(message, time_stamp)
+    (<object>py_callback)(dereference(message_vector), time_stamp)
 
 cdef class MidiIn(MidiBase):
     cdef RtMidiIn* thisptr
@@ -75,13 +76,12 @@ cdef class MidiIn(MidiBase):
     def ignore_types(self, midi_sysex=True, midi_time=True, midi_sense=True):
         self.thisptr.ignoreTypes(midi_sysex, midi_time, midi_sense)
     def get_message(self):
-        cdef vector[unsigned char]* message_vector = new vector[unsigned char]()
-        delta_time = self.thisptr.getMessage(message_vector)
-        if not message_vector.empty():
-            message = [message_vector.at(i) for i in range(message_vector.size())]
-            return message, delta_time
-        else:
+        cdef vector[unsigned char] message_vector
+        delta_time = self.thisptr.getMessage(&message_vector)
+        if message_vector.empty():
             return None, None
+        else:
+            return message_vector, delta_time
 
 cdef class MidiOut(MidiBase):
     cdef RtMidiOut* thisptr
@@ -92,8 +92,5 @@ cdef class MidiOut(MidiBase):
     cdef RtMidi* baseptr(self):
         return self.thisptr
     def send_message(self, message):
-        cdef vector[unsigned char]* message_vector = new vector[unsigned char]()
-        for byte in message:
-            message_vector.push_back(byte)
-        self.thisptr.sendMessage(message_vector)
-        del message_vector
+        cdef vector[unsigned char] message_vector = message
+        self.thisptr.sendMessage(&message_vector)
