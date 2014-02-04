@@ -4,15 +4,20 @@ rtmidi-python
 Python wrapper for `RtMidi`_, the lightweight, cross-platform MIDI I/O
 library. For Linux, Mac OS X and Windows.
 
-Setup
------
+Installation
+------------
 
-The wrapper is written in `Cython`_, but the generated C++ code is
-included, so you can install the module as usual::
+On Windows, the preferred way is to use one of the precompiled binaries
+available from `PyPI`_. On Linux and Mac OS X, the easiest way to install
+*rtmidi-python* is using pip::
+
+    pip install rtmidi-python
+
+Alternatively, you can build the module from source as follows::
 
     python setup.py install
 
-If you want to build from the Cython source, make sure that you have a
+If you want to build from the `Cython`_ source, make sure that you have a
 recent version of Cython (>= 0.17), and run::
 
     python setup.py install --from-cython
@@ -94,4 +99,5 @@ It uses `RtMidi`_, licensed under a modified MIT License, see
 RtMidi/RtMidi.h.
 
 .. _RtMidi: http://www.music.mcgill.ca/~gary/rtmidi/
+.. _PyPI: https://pypi.python.org/pypi/rtmidi-python#downloads
 .. _Cython: http://www.cython.org
