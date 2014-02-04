@@ -1,2 +1,2 @@
 include README.rst LICENSE rtmidi_python.pyx
-graft RtMidi/
+include RtMidi/Rt*
