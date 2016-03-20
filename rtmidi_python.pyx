@@ -1,8 +1,10 @@
+# distutils: language = c++
+
 from cython.operator import dereference
+from cpython.version cimport PY_MAJOR_VERSION
 
 from libcpp.string cimport string
 from libcpp.vector cimport vector
-
 
 # Init Python threads and GIL, because RtMidi calls Python from native threads.
 # See http://permalink.gmane.org/gmane.comp.python.cython.user/5837
@@ -10,7 +12,6 @@ cdef extern from "Python.h":
     void PyEval_InitThreads()
 
 PyEval_InitThreads()
-
 
 cdef extern from "RtMidi/RtMidi.h":
     ctypedef void (*RtMidiCallback)(double timeStamp, vector[unsigned char]* message, void* userData)
@@ -45,12 +46,18 @@ cdef class MidiBase:
         if isinstance(port, int):
             port_number = port
         else:
-            port_number = self.ports.index(port)
+            if PY_MAJOR_VERSION < 3:
+                port_number = self.ports.index(port)
+            else:
+                port_number = [x.decode('UTF-8') for x in self.ports].index(port)
 
         self.baseptr().openPort(port_number)
 
     def open_virtual_port(self, port_name="RtMidi"):
-        self.baseptr().openVirtualPort(string(<char*>port_name))
+        if PY_MAJOR_VERSION < 3:
+            self.baseptr().openVirtualPort(string(<char*>port_name))
+        else:
+            self.baseptr().openVirtualPort(port_name.encode('UTF-8'))
 
     property ports:
         def __get__(self):
@@ -69,7 +76,10 @@ cdef class MidiIn(MidiBase):
     cdef object py_callback
 
     def __cinit__(self, client_name="RtMidi Input Client", queue_size_limit=100):
-        self.thisptr = new RtMidiIn(UNSPECIFIED, string(<char*>client_name), queue_size_limit)
+        if PY_MAJOR_VERSION < 3:
+            self.thisptr = new RtMidiIn(UNSPECIFIED, string(<char*>client_name), queue_size_limit)
+        else:
+            self.thisptr = new RtMidiIn(UNSPECIFIED, client_name.encode('UTF-8'), queue_size_limit)
         self.py_callback = None
 
     def __dealloc__(self):
@@ -108,7 +118,10 @@ cdef class MidiOut(MidiBase):
     cdef RtMidiOut* thisptr
 
     def __cinit__(self, client_name="RtMidi Output Client"):
-        self.thisptr = new RtMidiOut(UNSPECIFIED, string(<char*>client_name))
+        if PY_MAJOR_VERSION < 3:
+            self.thisptr = new RtMidiOut(UNSPECIFIED, string(<char*>client_name))
+        else:
+            self.thisptr = new RtMidiOut(UNSPECIFIED, client_name.encode('UTF-8'))
 
     def __dealloc__(self):
         del self.thisptr
