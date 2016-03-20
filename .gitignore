@@ -6,3 +6,5 @@
 /rtmidi_python.pyd
 
 /MANIFEST
+
+/.tox
